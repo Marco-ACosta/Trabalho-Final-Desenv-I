@@ -1,20 +1,24 @@
 
 import pool from "../config/dbConfig";
 
+interface Notas {
+  [key: string]: number;
+}
+
 interface Avaliacoes {
     id: number,
     avaliador_id: number,
     equipe_id: number,
-    notas: string
+    notas: Notas
 }
 
 class AvaliacaoModel {
-    async create(user: Avaliacoes): Promise<Avaliacoes> {
+    async create(avaliacao: Avaliacoes): Promise<Avaliacoes> {
       const { avaliador_id, equipe_id, notas} =
-        user;
+      avaliacao;
       const result = await pool.query(
-        "INSERT INTO users (name, login, password, email, profile, cpf, birthdate, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
-        [avaliador_id, equipe_id, notas]
+        "INSERT INTO users (avaliador_id, equipe_id, notas) VALUES ($1, $2, $3) RETURNING *",
+        [avaliador_id, equipe_id, JSON.stringify(notas)]
       );
       return result.rows[0];
     }
@@ -24,14 +28,14 @@ class AvaliacaoModel {
       return result.rows || null;
     }
   
-    async update(id: number, user: Partial<Avaliacoes>): Promise<Avaliacoes | null> {
+    async update(id: number, avaliacao: Partial<Avaliacoes>): Promise<Avaliacoes | null> {
       const fields: string[] = [];
       const values: any[] = [];
       let query = "UPDATE users SET ";
   
-      Object.keys(user).forEach((key, index) => {
+      Object.keys(avaliacao).forEach((key, index) => {
         fields.push(`${key} = $${index + 1}`);
-        values.push((user as any)[key]);
+        values.push((avaliacao as any)[key]);
       });
   
       query +=

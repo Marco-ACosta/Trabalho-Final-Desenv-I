@@ -7,11 +7,11 @@ interface Equipes {
 }
 
 class EquipeModel {
-    async create(user: Equipes): Promise<Equipes> {
+    async create(equipe: Equipes): Promise<Equipes> {
       const { nome } =
-        user;
+        equipe;
       const result = await pool.query(
-        "INSERT INTO avaliadores (nome) VALUES ($1) RETURNING *",
+        "INSERT INTO equipes (nome) VALUES ($1) RETURNING *",
         [nome]
       );
       return result.rows[0];
