@@ -14,7 +14,7 @@ interface Equipes {
 //     return result.data;
 // }
 
-export default async function Home() {
+export default function Home() {
     const [equipe, setEquipe] = useState<Equipes[]>([]);
     //const avaliadores = await getEquipes()
 
