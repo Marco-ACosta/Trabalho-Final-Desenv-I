@@ -2,10 +2,31 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import api from "../app/services/api";
 
 export default function Home() {
     const [avaliadores, setAvaliadores] = useState([]);
     const [equipes, setEquipes] = useState([]);
+
+    useEffect(() => {
+      api.get('/avaliadores')
+        .then(response => {
+          setAvaliadores(response.data);
+        })
+        .catch(error => {
+          console.error('Erro ao chamar a API:', error);
+        });
+    }, []);
+
+    useEffect(() => {
+      api.get('/equipes')
+        .then(response => {
+          setEquipes(response.data);
+        })
+        .catch(error => {
+          console.error('Erro ao chamar a API:', error);
+        });
+    }, []);
 
   return (
     <div className="min-h-screen bg-gray-800 py-6 text-center flex flex-row justify-center sm:py-12 ">
