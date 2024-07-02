@@ -21,21 +21,27 @@ export default function Home() {
           .catch(error => {
             console.error('Erro ao chamar a API:', error);
           });
-      }, []);
+      }, [avaliadores]);
 
       const deleteAvaliador  = async (avaliadorId: number) => {
         try {
           await api.delete(`/avaliadores/${avaliadorId}`);
-          setAvaliador(avaliadores) // ele está excluindo, porém, é necessário atualizar a página
+          setAvaliador(avaliadores)
         } catch (error) {
           console.error("Erro ao excluir avaliador:", error);
         }
       };
 
+      function voltar() {
+        router.push("/");
+      }
+
+
   return (
     <div className="min-h-screen bg-gray-800 py-6 text-center flex flex-col items-center sm:py-12">
+      <button onClick={voltar} className=" self-start ml-6 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Voltar</button>
       <h1 className="text-3xl font-bold text-center pt-2 pb-4 text-white">Avaliadores</h1>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 m-12">    
+        <div>    
             <section className="flex flex-row justify-center gap-8">
             {avaliadores ? (
                 avaliadores.map((avaliador: Avaliadores) => {

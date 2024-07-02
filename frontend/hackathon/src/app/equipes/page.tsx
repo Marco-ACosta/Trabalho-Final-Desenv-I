@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import api from "../../app/services/api";
 import { AxiosResponse } from "axios";
+import { useRouter } from "next/navigation";
 
 interface Equipes {
     id : number
@@ -12,6 +13,7 @@ interface Equipes {
 
 export default function Home() {
     const [equipe, setEquipe] = useState<Equipes[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         api.get('/equipes')
@@ -21,21 +23,26 @@ export default function Home() {
           .catch(error => {
             console.error('Erro ao chamar a API:', error);
           });
-      }, []);
+      }, [equipe]);
 
       const deleteEquipe  = async (equipeId: number) => {
         try {
           await api.delete(`/equipes/${equipeId}`);
-          setEquipe(equipe) // ele está excluindo, porém, é necessário atualizar a página
+          setEquipe(equipe)
         } catch (error) {
           console.error("Erro ao excluir avaliador:", error);
         }
       };
 
+      function voltar() {
+        router.push("/");
+      }
+
       return (
         <div className="min-h-screen bg-gray-800 py-6 text-center flex flex-col items-center sm:py-12">
+            <button onClick={voltar} className=" self-start ml-6 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Voltar</button>
             <h1 className="text-3xl font-bold text-center pt-2 pb-4 text-white">Equipes</h1>
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 m-12">
+            <div>
                 <section className="grid grid-cols-3 gap-4">
                     {equipe ? (
                         equipe.map((equipe: Equipes) => (

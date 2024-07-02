@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-800 py-6 text-center flex flex-row justify-center sm:py-12 ">
-      <div className="max-w-sm rounded overflow-hidden shadow-lg mx-4">
+      <div className="max-w-sm rounded overflow-hidden  mx-4">
         <div className="px-6 py-4 bg-white">
           <div className="font-bold text-xl mb-2 text-gray-800">Avaliadores</div>
           <p className="text-gray-700 text-base">
@@ -51,7 +51,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="max-w-sm rounded overflow-hidden shadow-lg ">
+      <div className="max-w-sm rounded overflow-hidden ">
         <div className="px-6 py-4 bg-white">
           <div className="font-bold text-xl mb-2 text-gray-800">Equipes</div>
           <p className="text-gray-700 text-base">

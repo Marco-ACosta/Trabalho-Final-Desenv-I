@@ -59,7 +59,7 @@ export default function NewUser() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center my-8">
       <form className="flex flex-col gap-3 p-12 items-center w-[50%] bg-slate-700 rounded-md border-white border-2 border-spacing-2">
-
+        
         <div className="flex flex-col gap-3 items-center justify-center w-[97%]">
           <label>Nome Completo</label>
           <input
