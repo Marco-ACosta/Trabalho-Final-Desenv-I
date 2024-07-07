@@ -17,8 +17,8 @@ class AvaliacaoModel {
       const { avaliador_id, equipe_id, notas} =
       avaliacao;
       const result = await pool.query(
-        "INSERT INTO users (avaliador_id, equipe_id, notas) VALUES ($1, $2, $3) RETURNING *",
-        [avaliador_id, equipe_id, JSON.stringify(notas)]
+        "INSERT INTO avaliacoes (avaliador_id, equipe_id, notas) VALUES ($1, $2, $3) RETURNING *",
+        [avaliador_id, equipe_id, notas]
       );
       return result.rows[0];
     }
@@ -28,30 +28,18 @@ class AvaliacaoModel {
       return result.rows || null;
     }
   
-    async update(id: number, avaliacao: Partial<Avaliacoes>): Promise<Avaliacoes | null> {
-      const fields: string[] = [];
-      const values: any[] = [];
-      let query = "UPDATE users SET ";
-  
-      Object.keys(avaliacao).forEach((key, index) => {
-        fields.push(`${key} = $${index + 1}`);
-        values.push((avaliacao as any)[key]);
-      });
-  
-      query +=
-        fields.join(", ") +
-        " WHERE id = $" +
-        (fields.length + 1) +
-        " RETURNING *";
-      values.push(id);
+    async update(id: number, notas: Notas): Promise<Avaliacoes | null> {
+      const query = "UPDATE avaliacoes SET notas = $1 WHERE id = $2 RETURNING *";
+      const values = [notas, id];
   
       const result = await pool.query(query, values);
       return result.rows[0] || null;
     }
   
     async delete(id: number): Promise<void> {
-      await pool.query("DELETE FROM users WHERE id = $1", [id]);
+      await pool.query("DELETE FROM avaliacoes WHERE id = $1", [id]);
     }
+
   }
 
-  export { Avaliacoes, AvaliacaoModel };
+  export { Avaliacoes, Notas, AvaliacaoModel };

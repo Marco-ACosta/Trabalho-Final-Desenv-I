@@ -7,6 +7,7 @@ import api from "../app/services/api";
 export default function Home() {
     const [avaliadores, setAvaliadores] = useState([]);
     const [equipes, setEquipes] = useState([]);
+    const [avaliacoes, setAvaliacoes] = useState([]);
 
     useEffect(() => {
       api.get('/avaliadores')
@@ -20,6 +21,16 @@ export default function Home() {
 
     useEffect(() => {
       api.get('/equipes')
+        .then(response => {
+          setEquipes(response.data);
+        })
+        .catch(error => {
+          console.error('Erro ao chamar a API:', error);
+        });
+    }, []);
+
+    useEffect(() => {
+      api.get('/avaliacoes')
         .then(response => {
           setEquipes(response.data);
         })
@@ -66,6 +77,27 @@ export default function Home() {
                 <Link href="/novaEquipe">
                   <button className="bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-4 rounded mr-5">
                     Cadastrar equipe
+                  </button>
+                </Link>
+              </div>
+        </div>
+      </div>
+
+      <div className="max-w-sm rounded overflow-hidden ml-5">
+        <div className="px-6 py-4 bg-white">
+          <div className="font-bold text-xl mb-2 text-gray-800">Avaliações</div>
+          <p className="text-gray-700 text-base">
+            Total de notas já atribuídas: {avaliacoes.length}
+          </p>
+            <div className="flex justify-center">
+            <Link href="/#">
+                  <button className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded mr-5">
+                    Avaliações
+                  </button>
+                </Link>
+                <Link href="/atribuirAvaliador">
+                  <button className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded mr-5">
+                    Atribuir avaliador
                   </button>
                 </Link>
               </div>
