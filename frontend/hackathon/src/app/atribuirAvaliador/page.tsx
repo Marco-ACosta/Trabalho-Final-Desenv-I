@@ -3,7 +3,6 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import api from "../../app/services/api";
-import axios from "axios";
 
 interface Equipe {
   id: number;
@@ -17,17 +16,18 @@ interface Avaliador {
 
 export default function NewUser() {
   const router = useRouter();
-  const [equipe, setEquipe] = useState<Equipe[]>([]);
-  const [avaliador, setAvaliador] = useState<Avaliador[]>([]);
+  const [equipes, setEquipes] = useState<Equipe[]>([]);
+  const [avaliadores, setAvaliadores] = useState<Avaliador[]>([]);
   const [formData, setFormData] = useState({
     equipeId: "",
     avaliadorId: "",
+    notas: {}
   });
 
   useEffect(() => {
     api.get('/avaliadores')
       .then(response => {
-        setAvaliador(response.data);
+        setAvaliadores(response.data);
       })
       .catch(error => {
         console.error('Erro ao chamar a API:', error);
@@ -37,7 +37,7 @@ export default function NewUser() {
   useEffect(() => {
     api.get('/equipes')
       .then(response => {
-        setEquipe(response.data);
+        setEquipes(response.data);
       })
       .catch(error => {
         console.error('Erro ao chamar a API:', error);
@@ -52,12 +52,17 @@ export default function NewUser() {
     }));
   };
 
+  // a ideia aqui é enviar os dados como é enviado no postman, como abrir chaves e dentro dela colocar os valores,  da maneira como tava sendo 
+  // feita para equipes e avaliadores não tava dando certo, e sim, tive q pesquisar no chatgpt 
   const makePostRequest = async () => {
+    const formPostman = { 
+      avaliador_id: parseInt(formData.avaliadorId),
+      equipe_id: parseInt(formData.equipeId),
+      notas: formData.notas
+    };
+
     try {
-      const response = await axios.post("http://localhost:3000/api/avaliacoes", {
-        ...formData,
-        notas: {} 
-      });
+      const response = await api.post("/avaliacoes", formPostman);
 
       console.log("Dados enviados com sucesso!");
       console.log("Resposta:", response.data);
@@ -79,8 +84,8 @@ export default function NewUser() {
             className="border border-gray-300 w-[50%] rounded-md px-3 py-2 mb-3 text-black"
           >
             <option value="">Selecione uma equipe</option>
-            {equipe.map((eq) => (
-              <option key={eq.id} value={eq.id}>
+            {equipes.map((eq) => (
+              <option key={eq.id} value={eq.id.toString()}>
                 {eq.nome}
               </option>
             ))}
@@ -96,8 +101,8 @@ export default function NewUser() {
             className="border border-gray-300 w-[50%] rounded-md px-3 py-2 mb-3 text-black"
           >
             <option value="">Selecione um avaliador</option>
-            {avaliador.map((av) => (
-              <option key={av.id} value={av.id}>
+            {avaliadores.map((av) => (
+              <option key={av.id} value={av.id.toString()}>
                 {av.nome}
               </option>
             ))}
@@ -110,7 +115,7 @@ export default function NewUser() {
             onClick={makePostRequest}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            Cadastrar avaliação
+            Atribuir avaliador
           </button>
 
           <button

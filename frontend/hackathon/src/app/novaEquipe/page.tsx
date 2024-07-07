@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "../../app/services/api";
-import axios from "axios";
 
 interface formEquipe {
   nome: string,
@@ -33,7 +32,7 @@ export default function NewUser() {
 
   const makePostRequest = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/equipes", {
+      const response = await api.post("/equipes", {
         ...formDataEquipe,
       });
 
