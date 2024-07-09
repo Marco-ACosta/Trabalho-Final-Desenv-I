@@ -14,7 +14,8 @@
 <h1>Como rodar o front-end</h1>
 <p>Após fazer o git clone, faça:</p>
 <ul>
-  <li>cd backend</li>
+  <li>cd frontend</li>
+  <li>cd hackathon</li>
   <li>npm i (isso irá instalar as dependências necessárias)</li>
   <li>npm run dev</li>
 </ul>
