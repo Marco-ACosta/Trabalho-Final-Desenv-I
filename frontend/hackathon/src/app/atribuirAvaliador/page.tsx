@@ -53,7 +53,7 @@ export default function NewUser() {
   };
 
   // a ideia aqui é enviar os dados como é enviado no postman, como abrir chaves e dentro dela colocar os valores,  da maneira como tava sendo 
-  // feita para equipes e avaliadores não tava dando certo, e sim, tive q pesquisar no chatgpt 
+  // feita para equipes e avaliadores não tava dando certo
   const makePostRequest = async () => {
     const formPostman = { 
       avaliador_id: parseInt(formData.avaliadorId),
