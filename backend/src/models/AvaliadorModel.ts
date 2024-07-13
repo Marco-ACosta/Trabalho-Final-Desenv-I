@@ -11,11 +11,11 @@ interface Avaliadores {
 
 class AvaliadoresModel {
   async create(avaliador: Avaliadores): Promise<Avaliadores> {
-    const { nome, login, password } =
+    const { nome, login, password: senha} =
       avaliador;
     const result = await pool.query(
-      "INSERT INTO avaliadores (nome, login, password) VALUES ($1, $2, $3) RETURNING *",
-      [nome, login, password]
+      "INSERT INTO avaliadores (nome, login, senha) VALUES ($1, $2, $3) RETURNING *",
+      [nome, login, senha]
     );
     return result.rows[0];
   }
